@@ -40,6 +40,7 @@ app.get("/", async (req, res) => {
 // Server Running
 const server = app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Swagger is running on http://localhost:${port}/api-docs`);
 });
 
 // Set up Swagger documentation

@@ -137,6 +137,7 @@ router.post("/patient", createUser);
  *         description: Patient not found
  */
 router.put("/patient/:id", updateUser);
+
 /**
  * @swagger
  * /patient/{id}:
@@ -151,13 +152,11 @@ router.put("/patient/:id", updateUser);
  *         schema:
  *           type: integer
  *     responses:
- *
- *       404:
- *         description: Patient not found
  *       204:
  *         description: Patient deleted successfully
+ *       404:
+ *         description: Patient not found
  */
-
 router.delete("/patient/:id", deleteUser);
 
 export default router;

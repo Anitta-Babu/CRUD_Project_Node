@@ -1,0 +1,14 @@
+//for viewing running docker db's
+	docker ps
+
+//for run docker
+	docker run --name db_name -e POSTGRES_PASSWORD=user_password -p PORT_no:PORT_no -d postgres(=>image name)
+
+//for viewing db details
+	docker inspect db_name
+
+//for executing/connecting
+	 docker exec -it db_name psql -U postgres
+     after this if you want to list the db 
+	\l
+

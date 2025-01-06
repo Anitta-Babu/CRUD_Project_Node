@@ -23,10 +23,8 @@ app.use("/api", userRoutes);
 // Error Handling Middleware
 app.use(errorHandler);
 
-// Create table before starting server
 createUserTable();
 
-// Testing POSTGRES connection
 app.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT current_database()");
@@ -37,11 +35,9 @@ app.get("/", async (req, res) => {
   }
 });
 
-// Server Running
 const server = app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
   console.log(`Swagger is running on http://localhost:${port}/api-docs`);
 });
 
-// Set up Swagger documentation
 swaggerSpec(app);

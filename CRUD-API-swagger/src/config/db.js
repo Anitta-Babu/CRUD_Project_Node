@@ -13,7 +13,7 @@ const pool = new Pool({
 });
 
 pool.connect().then(() => {
-  console.log("Connect");
+  console.log("Connect to Database");
 });
 
 export default pool;

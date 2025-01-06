@@ -1,6 +1,6 @@
 services:
   db:
-    image: anittababu/patient-crudapi-db
+    image: anittababu/crud-api-db
     environment:
       POSTGRES_DB: patient
       POSTGRES_USER: postgres
@@ -9,7 +9,13 @@ services:
       - "5436:5432"
 
   app:
-    image: anittababu/patient-crudapi-app
+    image: anittababu/crud-api-app
     build: .
     ports:
       - "5000:5000"
+    depends_on:
+      - redis
+  redis:
+    image: anittababu/crud-api-redis
+    ports:
+      - "6379:6379"

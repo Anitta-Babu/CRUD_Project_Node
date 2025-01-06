@@ -1,6 +1,11 @@
-CREATE TABLE IF NOT EXISTs patient(
-  id SERIAL PRIMARY KEY ,
-  name VARCHAR(100) NOT NULL,
-   email VARCHAR(100) UNIQUE NOT NULL,
-   created_at TIMESTAMP DEFAULT NOW()
-)
+//Centralized Error Handler
+const errorHandler = (err, req, res, next) => {
+  console.log(err.stack);
+  res.status(500).json({
+    status: 500,
+    message: "Something went wrong",
+    error: err.message,
+  });
+};
+
+export default errorHandler;

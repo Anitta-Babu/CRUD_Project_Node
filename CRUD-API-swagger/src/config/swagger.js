@@ -1,68 +1,30 @@
-import {
-  createUserService,
-  deleteUserService,
-  getAllUserService,
-  getUserIdService,
-  updateUserService,
-} from "../models/userModel.js";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import dotenv from "dotenv";
+dotenv.config();
 
-let patients = [];
-
-const handleResponse = (res, status, message, data = null) => {
-  res.status(status).json({
-    status,
-    message,
-    data,
-  });
+const port = process.env.PORT;
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Patient Management",
+      version: "1.0.0",
+      description: "API documentation for patient management",
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}/api`,
+      },
+    ],
+  },
+  apis: ["./src/routes/*.js"],
 };
 
-export const createUser = async (req, res, next) => {
-  const { name, email } = req.body;
-  try {
-    const newUser = await createUserService(name, email);
-    handleResponse(res, 201, "Patient created successfully", newUser);
-  } catch (err) {
-    next(err);
-  }
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+const swaggerSpec = (app) => {
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };
 
-export const getAllUser = async (req, res, next) => {
-  try {
-    const users = await getAllUserService();
-    handleResponse(res, 200, "Patient fetched successfully", users);
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
-
-export const getUserById = async (req, res, next) => {
-  try {
-    const user = await getUserIdService(req.params.id);
-    if (!user) return handleResponse(res, 404, "Patients not found");
-    handleResponse(res, 200, "Patient fetched successfully", user);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const updateUser = async (req, res, next) => {
-  const { name, email } = req.body;
-  try {
-    const updatedUser = await updateUserService(req.params.id, name, email);
-    if (!updatedUser) return handleResponse(res, 404, "Patient not found");
-    handleResponse(res, 200, "Patient updated successfully", updatedUser);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const deleteUser = async (req, res, next) => {
-  try {
-    const deletedUser = await deleteUserService(req.params.id);
-    if (!deletedUser) return handleResponse(res, 404, "Patient not found");
-    handleResponse(res, 204, "Patient deleted successfully", deletedUser);
-  } catch (err) {
-    next(err);
-  }
-};
+export default swaggerSpec;
